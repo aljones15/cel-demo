@@ -186,6 +186,17 @@ files = [
 typing-extensions = {version = ">=4.1.0", markers = "python_version < \"3.11\""}
 
 [[package]]
+name = "peewee"
+version = "3.17.9"
+description = "a little orm"
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "peewee-3.17.9.tar.gz", hash = "sha256:fe15cd001758e324c8e3ca8c8ed900e7397c2907291789e1efc383e66b9bc7a8"},
+]
+
+[[package]]
 name = "psycopg"
 version = "3.2.6"
 description = "PostgreSQL database adapter for Python"
@@ -602,4 +613,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "7f6ae2f0eed765cece0ff5f943954f1636a2f6002ea362b4d6c1dbaddeb70489"
+content-hash = "98f2c5bc3246718f3d65365e286d309534aca27b6a35b649a33a721b2950fe27"

@@ -17,7 +17,7 @@ For the postgress database a docker image maybe used:
 ```sh
 docker pull postgres
 # note it is not recommended to run postgres w/o auth but this is a demo
-sudo docker container run --env POSTGRES_HOST_AUTH_METHOD=trust postgres
+docker run --name postgres-no-auth -e POSTGRES_HOST_AUTH_METHOD=trust -d postgres
 ```
 
 A `settings.yml` file maybe used:
