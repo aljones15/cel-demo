@@ -5,27 +5,42 @@ from database import ScheduledEvent
 app = Sanic("cel_server")
 settings = load_settings("settings.yml")
 
-print(settings)
-
-@app.before_server_start
-async def init_db():
-    app.ctx.db = await start_db()
-
 @app.get(settings["server"]["routes"]["schedules"])
 async def get_schedules(request):
-    return json({get: true})
+    if(request.json.id):
+        result = ScheduledEvent.get(ScheduledEvent.id == request.json.id)
+    if(request.json.after):
+        result = ScheduledEvent.get(
+            ScheduledEvent.start_date_time >= result.json.after)
+    if(request.json.before):
+        result = ScheduledEvent.get(
+            ScheduledEvent.start_date_time <= result.json.after)
+    return json(result)
 
 @app.post(settings["server"]["routes"]["schedules"])
 async def create_schedules(request):
-    return json({post: true})
+    result = ScheduledEvent.create(request.json)
+    return json(result)
 
 @app.put(settings["server"]["routes"]["schedules"])
 async def updates_schedules(request):
-    return json({put: true})
+    result = ScheduledEvent.update(request.json).where(
+        ScheduledEvent.id == request.json.id)
+    return json(result)
 
 @app.delete(settings["server"]["routes"]["schedules"])
 async def delete_schedules(request):
-    return json({delete: true})
+    result = Null
+    if(request.json.id):
+        result = ScheduledEvent.delete(ScheduledEvent.id == request.json.id)
+    if(request.json.after):
+        result = ScheduledEvent.delete().where(
+            ScheduledEvent.start_date_time >= result.json.after)
+    if(request.json.before):
+        result = ScheduledEvent.delete().where(
+            ScheduledEvent.start_date_time <= result.json.after)
+    return json(result)
 
-def start():
-    print("start")
+if __name__ == "__main__":
+    # start server here
+    app.run()

@@ -20,5 +20,4 @@ peewee = "^3.17.9"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
-serve = "cel_services.server:start"
 poll="cel_services.scheduler:poll"

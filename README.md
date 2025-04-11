@@ -42,3 +42,9 @@ $ nix develop
 $ poetry run python -m sample_package
 Hello, world!
 ```
+
+### Developer
+To run the server
+```sh
+poetry run python -m cel_services.server
+```
