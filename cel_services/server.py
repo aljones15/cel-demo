@@ -7,18 +7,19 @@ settings = load_settings("settings.yml")
 
 @app.get(settings["server"]["routes"]["schedules"])
 async def get_schedules(request):
-    if(request.json.id):
-        result = ScheduledEvent.get(ScheduledEvent.id == request.json.id)
-    if(request.json.after):
+    if(request.args.get("id")):
+        result = ScheduledEvent.get(ScheduledEvent.id == request.args.get("id"))
+    if(request.args.get("after")):
         result = ScheduledEvent.get(
-            ScheduledEvent.start_date_time >= result.json.after)
-    if(request.json.before):
+            ScheduledEvent.start_date_time >= request.args.get("after"))
+    if(request.args.get("before")):
         result = ScheduledEvent.get(
-            ScheduledEvent.start_date_time <= result.json.after)
+            ScheduledEvent.start_date_time <= result.args.get("before"))
     return json(result)
 
 @app.post(settings["server"]["routes"]["schedules"])
 async def create_schedules(request):
+    print(request.json)
     result = ScheduledEvent.create(request.json)
     return json(result)
 
@@ -30,15 +31,15 @@ async def updates_schedules(request):
 
 @app.delete(settings["server"]["routes"]["schedules"])
 async def delete_schedules(request):
-    result = Null
-    if(request.json.id):
-        result = ScheduledEvent.delete(ScheduledEvent.id == request.json.id)
-    if(request.json.after):
+    result = None
+    if(request.args.get("id")):
+        result = ScheduledEvent.delete(ScheduledEvent.id == request.args.get("id"))
+    if(request.args.get("after")):
         result = ScheduledEvent.delete().where(
-            ScheduledEvent.start_date_time >= result.json.after)
-    if(request.json.before):
+            ScheduledEvent.start_date_time >= request.args.get("after"))
+    if(request.args.get("before")):
         result = ScheduledEvent.delete().where(
-            ScheduledEvent.start_date_time <= result.json.after)
+            ScheduledEvent.start_date_time <= request.args.get("before"))
     return json(result)
 
 if __name__ == "__main__":
