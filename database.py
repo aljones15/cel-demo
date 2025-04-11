@@ -1,6 +1,6 @@
 from peewee import *
 
-db = SqlLiteDatabase("cel")
+db = SqliteDatabase("cel")
 
 class ScheduledEvent(Model):
     id: CharField(unique=True, index=True)
@@ -11,8 +11,9 @@ class ScheduledEvent(Model):
     last_run: DateTimeField()
     class Meta:
         database = db #use cel db
-
         
 def init_db():
     db.connect()
     db.create_tables([ScheduledEvent])
+
+init_db()

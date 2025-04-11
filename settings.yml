@@ -1,11 +1,11 @@
 server:
-  - port: 4346
-  - domain: "localhost"
-  - routes:
-    - schedules: "/schedules"
+  port: 4346
+  domain: "localhost"
+  routes:
+    schedules: "/schedules"
 database:
-  -name: "cel"
-  -user: ~
-  -password: ~
-  -host: ~
-  -port: 5432
+  name: "cel"
+  user: ~
+  password: ~
+  host: ~
+  port: 5432
