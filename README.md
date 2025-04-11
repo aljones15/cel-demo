@@ -20,6 +20,21 @@ docker pull postgres
 sudo docker container run --env POSTGRES_HOST_AUTH_METHOD=trust postgres
 ```
 
+A `settings.yml` file maybe used:
+```sh
+server:
+  - port: 4346
+  - domain: "localhost"
+  - routes:
+    - schedule: "/schedules"
+database:
+  -name: "cel"
+  -user: "postgres"
+  -password: ~
+  -host: ~
+  -port: ~
+```
+
 To get started, run the following:
 
 ```
