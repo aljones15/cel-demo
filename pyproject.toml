@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "cel-demo"
+version = "0.1.0"
+description = "Programming Test for Community Energy Labs"
+authors = ["Andrew Jones <aljones15@gmail.com>"]
+# readme = "README.md"
+# license = "BSD"
+packages = [
+  { include = "cel_services"}
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+sanic = "^25.3.0"
+pyyaml = "^6.0.2"
+psycopg = "^3.2.6"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+[tool.poetry.scripts]
+serve = "cel_services.server:start"
+poll="cel_services.scheduler:poll"
