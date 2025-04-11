@@ -13,6 +13,12 @@ Here are the commands:
 poetry run serve
 poetry run poll
 ```
+For the postgress database a docker image maybe used:
+```sh
+docker pull postgres
+# note it is not recommended to run postgres w/o auth but this is a demo
+sudo docker container run --env POSTGRES_HOST_AUTH_METHOD=trust postgres
+```
 
 To get started, run the following:
 
