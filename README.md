@@ -29,7 +29,7 @@ server:
     - schedule: "/schedules"
 database:
   -name: "cel"
-  -user: "postgres"
+  -user: ~
   -password: ~
   -host: ~
   -port: ~
