@@ -21,9 +21,20 @@ def get_repeats(now):
     dayName = dayNum[now.weekday()]
     return ScheduledEvent.select().where(
         ScheduledEvent.repeat.contains(dayName),
-        ScheduledEvent.hour === now.hour)
+        ScheduledEvent.hour === now.hour).execute()
+
+# the instructions don't give a specific scheduled task
+# so this is just meta code
+def perform_task(event):
+    # spawn a task
+    # using the popen keep track of the task
+    # using the instructions from stackoverflow use the duration
+    # to ensure the subprocess doesn't stick around for to long
+    # if the process succeeds mark last_run as now and save
+    pass
 
 def poll():
     now = datetime.now()
     # get the recurring events for today
     dailies = get_repeats(now)
+    map(perform_task, dailies)
