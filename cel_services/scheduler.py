@@ -17,11 +17,13 @@ dayNum = {
   6:"Sun"
 }
 
-def get_repeats(weekday):
-    dayName = dayNum[weekday]
+def get_repeats(now):
+    dayName = dayNum[now.weekday()]
     return ScheduledEvent.select().where(
-        ScheduledEvent.repeat.contains(dayName))
+        ScheduledEvent.repeat.contains(dayName),
+        ScheduledEvent.hour === now.hour)
 
 def poll():
     now = datetime.now()
-    dailies = get_repeats(now.weekday())
+    # get the recurring events for today
+    dailies = get_repeats(now)

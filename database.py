@@ -9,6 +9,7 @@ class BaseModel(Model):
 class ScheduledEvent(BaseModel):
     event_id = CharField(unique=True, index=True)
     start_date_time = DateTimeField(unique=True, index=True)
+    hour = IntegerField()
     duration = TimestampField(null=True)
     name = CharField()
     repeat = CharField(null=True)
