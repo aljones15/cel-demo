@@ -1,4 +1,4 @@
-import psutil, time, subprocess
+import time, subprocess
 from database import ScheduledEvent
 from datetime import datetime
 
@@ -19,7 +19,9 @@ dayNum = {
 
 def get_repeats(weekday):
     dayName = dayNum[weekday]
+    return ScheduledEvent.select().where(
+        ScheduledEvent.repeat.contains(dayName))
 
 def poll():
     now = datetime.now()
-    weekday = now.weekday()
+    dailies = get_repeats(now.weekday())
