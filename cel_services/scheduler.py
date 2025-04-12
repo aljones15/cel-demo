@@ -1,6 +1,6 @@
 import time, subprocess
 from database import ScheduledEvent
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # https://stackoverflow.com/questions/1359383/run-a-process-and-kill-it-if-it-doesnt-end-within-one-hour
 '''
@@ -21,7 +21,14 @@ def get_repeats(now):
     dayName = dayNum[now.weekday()]
     return ScheduledEvent.select().where(
         ScheduledEvent.repeat.contains(dayName),
-        ScheduledEvent.hour === now.hour).execute()
+        ScheduledEvent.hour == now.hour).execute()
+
+def get_scheduled(now):
+    one_hour_later = now + timedelta(hours = 1)
+    return ScheduledEvent.select().where(
+        ScheduledEvent.start_date_time >= now,
+        ScheduledEvent.start_date_time < one_hour_later 
+    ).execute()
 
 # the instructions don't give a specific scheduled task
 # so this is just meta code
@@ -37,4 +44,12 @@ def poll():
     now = datetime.now()
     # get the recurring events for today
     dailies = get_repeats(now)
-    map(perform_task, dailies)
+    print(len(dailies),
+          "events are scheduled for this day",
+          dayNum[now.weekday()],
+          "and hour", now.hour)
+    scheduled = get_scheduled(now)
+    print(len(scheduled),
+          "events are scheduled to run for the first time this day",
+          dayNum[now.weekday()],
+          "and hour", now.hour)
