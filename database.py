@@ -1,9 +1,9 @@
 from peewee import *
 
-db = SqliteDatabase("cel")
+db = SqliteDatabase(":memory:")
 
 class ScheduledEvent(Model):
-    id: CharField(unique=True, index=True)
+    event_id: TextField(unique=True, index=True)
     state_date_time: DateTimeField(unique=True, index=True)
     duration: TimestampField()
     name: CharField()
