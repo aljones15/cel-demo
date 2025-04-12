@@ -7,12 +7,12 @@ class BaseModel(Model):
         database = db
 
 class ScheduledEvent(BaseModel):
-    event_id: CharField(unique=True, index=True)
-    state_date_time: DateTimeField(unique=True, index=True)
-    duration: TimestampField()
-    name: CharField()
-    repeat: CharField()
-    last_run: DateTimeField()
+    event_id = CharField(unique=True, index=True)
+    start_date_time = DateTimeField(unique=True, index=True)
+    duration = TimestampField(null=True)
+    name = CharField()
+    repeat = CharField(null=True)
+    last_run = DateTimeField(null=True)
         
 def init_db():
     db.connect()

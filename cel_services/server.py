@@ -8,7 +8,6 @@ settings = load_settings("settings.yml")
 
 @app.get(settings["server"]["routes"]["schedules"])
 async def get_schedules(request):
-    return json(list(ScheduledEvent.__dict__.keys()))
     if(request.args.get("id")):
         result = ScheduledEvent.get(ScheduledEvent.event_id == request.args.get("id"))
     if(request.args.get("after")):
@@ -21,28 +20,29 @@ async def get_schedules(request):
 
 @app.post(settings["server"]["routes"]["schedules"])
 async def create_schedules(request):
-    result = ScheduledEvent(**request.json)
-    result.save()
-    return json(model_to_dict(result))
+    result = ScheduledEvent.create(**request.json)
+    return json({"ok": True})
 
 @app.put(settings["server"]["routes"]["schedules"])
 async def updates_schedules(request):
     result = ScheduledEvent.update(**request.json).where(
-        ScheduledEvent.event_id == request.json.id)
-    return json(result)
+        ScheduledEvent.event_id == request.json["event_id"])
+    count = result.execute()
+    return json({"updated": count})
 
 @app.delete(settings["server"]["routes"]["schedules"])
 async def delete_schedules(request):
     result = None
     if(request.args.get("id")):
-        result = ScheduledEvent.delete(ScheduledEvent.event_id == request.args.get("id"))
+        result = ScheduledEvent.delete().where(
+            ScheduledEvent.event_id == request.args.get("id")).execute()
     if(request.args.get("after")):
         result = ScheduledEvent.delete().where(
             ScheduledEvent.start_date_time >= request.args.get("after"))
     if(request.args.get("before")):
         result = ScheduledEvent.delete().where(
             ScheduledEvent.start_date_time <= request.args.get("before"))
-    return json(result)
+    return json({"ok": True})
 
 if __name__ == "__main__":
     # start server here
