@@ -6,6 +6,10 @@ from playhouse.shortcuts import model_to_dict
 app = Sanic("cel_server")
 settings = load_settings("settings.yml")
 
+# return model as json with string serializations for datetime
+def model_response(model):
+    return json(model_to_dict(model), default=str)
+
 @app.get(settings["server"]["routes"]["schedules"])
 async def get_schedules(request):
     if(request.args.get("id")):
@@ -16,12 +20,12 @@ async def get_schedules(request):
     if(request.args.get("before")):
         result = ScheduledEvent.get(
             ScheduledEvent.start_date_time <= result.args.get("before"))
-    return json(model_to_dict(result))
+    return model_response(result)
 
 @app.post(settings["server"]["routes"]["schedules"])
 async def create_schedules(request):
     result = ScheduledEvent.create(**request.json)
-    return json({"ok": True})
+    return model_response(result)
 
 @app.put(settings["server"]["routes"]["schedules"])
 async def updates_schedules(request):
@@ -32,17 +36,17 @@ async def updates_schedules(request):
 
 @app.delete(settings["server"]["routes"]["schedules"])
 async def delete_schedules(request):
-    result = None
+    count = 0
     if(request.args.get("id")):
-        result = ScheduledEvent.delete().where(
+        count = ScheduledEvent.delete().where(
             ScheduledEvent.event_id == request.args.get("id")).execute()
     if(request.args.get("after")):
-        result = ScheduledEvent.delete().where(
-            ScheduledEvent.start_date_time >= request.args.get("after"))
+        count = ScheduledEvent.delete().where(
+            ScheduledEvent.start_date_time >= request.args.get("after")).execute()
     if(request.args.get("before")):
-        result = ScheduledEvent.delete().where(
-            ScheduledEvent.start_date_time <= request.args.get("before"))
-    return json({"ok": True})
+        count = ScheduledEvent.delete().where(
+            ScheduledEvent.start_date_time <= request.args.get("before")).execute()
+    return json({"deleted": count})
 
 if __name__ == "__main__":
     # start server here
