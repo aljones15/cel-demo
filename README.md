@@ -10,10 +10,10 @@ poetry install
 
 Here are the commands:
 ```sh
-poetry run serve
+poetry run python -m cel_services.server
 poetry run poll
 ```
-While not required for a postgress database a docker image maybe used:
+While not required, if wanted a postgress database from a docker image maybe used:
 ```sh
 docker pull postgres
 # note it is not recommended to run postgres w/o auth but this is a demo
